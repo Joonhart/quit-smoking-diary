@@ -1,10 +1,15 @@
-import './App.css';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Outlet } from "react-router-dom";
+import Navbar from "./components/Navbar";
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <div className="App">
-      react
-    </div>
+    <QueryClientProvider client={queryClient} >
+      <Navbar />
+      <Outlet />
+    </QueryClientProvider>
   );
 }
 
