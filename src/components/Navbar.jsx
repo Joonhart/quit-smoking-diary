@@ -16,7 +16,7 @@ const Navbar = () => {
         </nav>
       </div>
       <div>
-        Login
+        로그인
       </div>
     </header>
   );
