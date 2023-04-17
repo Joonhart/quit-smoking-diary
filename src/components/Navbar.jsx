@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { IoLogoNoSmoking } from "react-icons/io";
+import { login } from "../api/firebase";
+import LoginButton from "./ui/LoginButton";
 
 const Navbar = () => {
   return (
@@ -16,7 +18,7 @@ const Navbar = () => {
         </nav>
       </div>
       <div>
-        로그인
+        <LoginButton onClick={login} text="로그인" />
       </div>
     </header>
   );
