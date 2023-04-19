@@ -1,6 +1,6 @@
 import React from "react";
-import SmokeButton from "../components/ui/SmokeButton";
-import Barchart from "../components/ui/BarChart";
+import Barchart from "../components/chart/BarChart";
+import LongButton from "../components/ui/LongButton";
 
 const Main = () => {
   const plusSmoke = () => {
@@ -14,7 +14,7 @@ const Main = () => {
         <p className="mb-4 text-center text-2xl">
           마지막으로 담배를 피운지 17시간 32분이 지났습니다
         </p>
-        <SmokeButton onClick={plusSmoke} text="담배 피우기" />
+        <LongButton onClick={plusSmoke} text="담배 피우기" />
       </section>
       <section className="text-center grid grid-cols-1 lg:grid-cols-2 gap-2 gap-y-4">
         <section className="p-4">
