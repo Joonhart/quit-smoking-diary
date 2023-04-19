@@ -1,5 +1,6 @@
 import React from "react";
 import SmokeButton from "../components/ui/SmokeButton";
+import Barchart from "../components/ui/BarChart";
 
 const Main = () => {
   const plusSmoke = () => {
@@ -20,6 +21,7 @@ const Main = () => {
             <p className="p-2">최근 일주일 흡연 횟수</p>
             <div className="h-96 bg-sky-400">
                 일별 차트
+                <Barchart />
             </div>
         </section>
         <section className="p-4">
