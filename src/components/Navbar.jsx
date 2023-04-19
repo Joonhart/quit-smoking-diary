@@ -7,7 +7,7 @@ import { useAuthContext } from "../context/AuthContext";
 const Navbar = () => {
     const {user, login, logout} = useAuthContext();
   return (
-    <header className="flex justify-between text-2xl border-b border-gray-300 p-5 bg-black text-white">
+    <header className="flex justify-between text-2xl border-b mb-10 border-gray-300 p-5 bg-black text-white">
       <div className="flex items-center">
         <Link to="/" className="hover:text-gray-400">
           <IoLogoNoSmoking />
