@@ -10,7 +10,7 @@ const TextCaroucel = () => {
             carouselTxt.map((txt, idx) => {
                 return (
                 <div key={idx}>
-                    <p>{txt.text}</p>
+                    <p>“{txt.text}”</p>
                     <p> - {txt.by} - </p>
                 </div>
             )})
