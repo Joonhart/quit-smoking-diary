@@ -22,7 +22,10 @@ const auth = getAuth(app);
 const database = getDatabase(app);
 
 export function login() {
-  signInWithPopup(auth, provider).catch((error) => {
+  signInWithPopup(auth, provider).then((result) => {
+    const user = result.user;
+
+  }).catch((error) => {
     console.log("Google Login Error!");
   });
 }
@@ -40,19 +43,16 @@ export function onUserStateChange(callback) {
 export async function addSmokeHistory(uid) {
   const date = moment().format("YYYY-MM-DD");
   const time = moment().format("HH:mm:ss");
-
   const todayHistory = await getTodaySmokeHistory(uid, date);
-  console.log(todayHistory);
-  const addNowTimeToHistory = todayHistory.length === 0 ? [time] : [...todayHistory[0], time];
-
-  console.log(addNowTimeToHistory);
-  return set(ref(database, `users/${uid}/${date}`), {
-    history: addNowTimeToHistory,
+  const addNowTimeToHistory =
+    todayHistory.length === 0 ? [time] : [...todayHistory[0], time];
+  return set(ref(database, `users/${uid}/history/${date}`), {
+    smokeTime: addNowTimeToHistory,
   });
 }
 
 export async function getTodaySmokeHistory(uid, date) {
-  return get(ref(database, `users/${uid}/${date}`)) //
+  return get(ref(database, `users/${uid}/history/${date}`)) //
     .then((snapshot) => {
       const history = snapshot.val() || {};
       return Object.values(history);
@@ -60,8 +60,14 @@ export async function getTodaySmokeHistory(uid, date) {
 }
 
 export async function getAllSmokeHistory(uid) {
-    return get(ref(database, `users/${uid}`)) //
-        .then(snapshot => {
-            return Object.values(snapshot.val() || {})
-        }) 
+  return get(ref(database, `users/${uid}`)) //
+    .then((snapshot) => {
+      return Object.values(snapshot.val() || {});
+    });
+}
+
+export async function insertOrUpdateGoal(uid, goal) {
+    console.log(uid);
+    console.log(goal);
+    return set(ref(database, `users/${uid}/goal`), goal)
 }

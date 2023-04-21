@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { useAuthContext } from "../context/AuthContext";
 import { countEmoji } from "../utils/countEmoji";
 import LongButton from "../components/ui/LongButton";
+import { insertOrUpdateGoal } from "../api/firebase";
 
 const Goal = () => {
   const [goal, setGoal] = useState({weekGoal: 0, monthGoal: 0});
   const [face, setFace] = useState('😃')
-  const { user } = useAuthContext();
+  const { user, uid } = useAuthContext();
 
   const changeHandler = (e) => {
     const { name, value } = e.target;
@@ -18,6 +19,8 @@ const Goal = () => {
   };
   const submitHandler = (e) => {
     e.preventDefault();
+    console.log(goal);
+    insertOrUpdateGoal(uid, goal);
   }
 
   return (
