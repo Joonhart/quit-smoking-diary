@@ -3,8 +3,6 @@ import React from "react";
 import { statData } from "./statData";
 
 const TimeRangeChart = () => {
-  console.log(statData);
-
   return (
     <div style={{ width: "100%", height: "90%", margin: "0 auto" }}>
       <ResponsiveTimeRange

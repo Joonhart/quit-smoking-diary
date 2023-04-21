@@ -1,6 +1,7 @@
 import React from "react";
 import Barchart from "../components/chart/BarChart";
 import LongButton from "../components/ui/LongButton";
+import TextCaroucel from "../components/ui/TextCaroucel";
 
 const Main = () => {
   const plusSmoke = () => {
@@ -10,6 +11,9 @@ const Main = () => {
 
   return (
     <>
+        <section>
+            <TextCaroucel />
+        </section>
       <section className="p-4">
         <p className="mb-4 text-center text-2xl">
           마지막으로 담배를 피운지 17시간 32분이 지났습니다
