@@ -4,29 +4,25 @@ import LongButton from "../components/ui/LongButton";
 import TextCaroucel from "../components/ui/TextCaroucel";
 import { useAuthContext } from "../context/AuthContext";
 import AlertInfo from "../components/ui/AlertInfo";
+import { addSmokeHistory } from "../api/firebase";
 
 const Main = () => {
   const { user } = useAuthContext();
-  const [isLogin, setIsLogin] = useState(true)
+  const [isLogin, setIsLogin] = useState(true);
 
   const showAlert = () => {
-    setIsLogin(false)
-    setTimeout(() => setIsLogin(true), 3000)
-  }
-  const addSmoke = () => {
-    console.log(user);
-  }
+    setIsLogin(false);
+    setTimeout(() => setIsLogin(true), 3000);
+  };
   const plusSmoke = () => {
     !user && showAlert();
     // 담배 피운 리스트 가져와서 현재 시간 추가
-    user && addSmoke();
+    user && addSmokeHistory(user.uid);
   };
 
   return (
     <>
-        {
-            !isLogin && <AlertInfo />
-        }
+      {!isLogin && <AlertInfo />}
       <section>
         <TextCaroucel />
       </section>
