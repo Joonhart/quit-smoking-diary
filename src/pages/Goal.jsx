@@ -33,11 +33,9 @@ const Goal = () => {
   const changeHandler = (e) => {
     const { name, value } = e.target;
     const newGoal = {...goal, [name]: value}
-    console.log(newGoal);
     setGoal(newGoal);
     
     const count = Math.max(newGoal.weekGoal, parseInt(newGoal.monthGoal / 4));
-    console.log(count);
     setFace(countEmoji(Number(count)))
   };
   const submitHandler = (e) => {

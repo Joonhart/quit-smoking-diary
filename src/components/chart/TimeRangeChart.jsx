@@ -1,16 +1,36 @@
 import { ResponsiveTimeRange } from "@nivo/calendar";
 import React from "react";
-import { statData } from "./statData";
+import { getAllSmokeDummyData } from "../../utils/moment";
+import { AuthContextProvider } from "../../context/AuthContext";
+import { useState } from "react";
+import { useEffect } from "react";
 
-const TimeRangeChart = () => {
+const TimeRangeChart = ({uid}) => {
+  const [allSmokeData, setAllSmokeData] = useState();
+  const [from, setFrom] = useState();
+  const [to, setTo] = useState();
+
+  
+
+  useEffect(() => {
+    async function fetchAllSmokeData() {
+      const {startDate, endDate, totalData} = await getAllSmokeDummyData(uid);
+      setAllSmokeData(totalData);
+      setFrom(startDate)
+      setTo(endDate)
+    }
+    fetchAllSmokeData();
+  }, [uid])
+  
+  if(!allSmokeData) return (<p>loading...</p>)
   return (
     <div style={{ width: "100%", height: "90%", margin: "0 auto" }}>
       <ResponsiveTimeRange
-        data={statData}
-        from="2023-01-24"
-        to="2023-04-15"
+        data={allSmokeData}
+        from={from}
+        to={to}
         emptyColor="#eeeeee"
-        colors={["#61cdbb", "#97e3d5", "#e8c1a0", "#f47560"]}
+        colors={["#f5f7f7", "#e8d2cc", "#f47560", "#4f2716"]}
         margin={{ top: 40, right: 40, bottom: 100, left: 40 }}
         yearSpacing={40}
         dayBorderWidth={2}
@@ -22,7 +42,7 @@ const TimeRangeChart = () => {
             anchor: "bottom-right",
             direction: "row",
             justify: false,
-            itemCount: 4,
+            itemCount: 10,
             itemWidth: 42,
             itemHeight: 36,
             itemsSpacing: 14,

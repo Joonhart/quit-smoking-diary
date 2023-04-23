@@ -14,6 +14,29 @@ export function getWeekSmokeDummyData() {
   return dummyData;
 }
 
+export async function getAllSmokeDummyData(uid) {
+  console.log(uid);
+  const totalData = [];
+
+  if (!uid) {
+    for (let i = 60; i >= 0; i--) {
+      const date = moment().subtract(i, "days").format("YYYY-MM-DD").trim();
+      totalData.push({
+          'day': date, 'value': parseInt(Math.random()*10)
+      })
+    }
+  } else {
+    const allSmokeHistory = await getAllSmokeHistory(uid);
+    Object.keys(allSmokeHistory).forEach(data => {
+      totalData.push({'day': data, 'value': allSmokeHistory[data].length})
+    })
+  }
+
+  const startDate = moment(totalData.map(data => data.day)[0]).subtract(1, 'days').format("YYYY-MM-DD");
+  const endDate = totalData.map(data => data.day)[totalData.length-1]
+  return {startDate, endDate, totalData};
+}
+
 export async function getUserWeekSmokeData(uid) {
     const userWeekSmokeData = []
     const totalSmokeData = await getAllSmokeHistory(uid);
@@ -25,6 +48,6 @@ export async function getUserWeekSmokeData(uid) {
         userWeekSmokeData.push({
             '날짜': date+dayOfTheWeek, '흡연':totalSmokeData[dbDate] ? totalSmokeData[dbDate].length : 0
         })
-      }
-      return userWeekSmokeData
+    }
+    return userWeekSmokeData
 }
