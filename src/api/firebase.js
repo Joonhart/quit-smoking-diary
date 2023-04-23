@@ -77,6 +77,8 @@ export async function getAllSmokeHistory(uid) {
 }
 
 export async function insertOrUpdateGoal(uid, goal) {
+    goal.weekGoal = Number(goal.weekGoal);
+    goal.monthGoal = Number(goal.monthGoal);
   return set(ref(database, `users/${uid}/goal`), goal);
 }
 

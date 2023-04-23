@@ -3,9 +3,11 @@ import { useAuthContext } from "../context/AuthContext";
 import { countEmoji } from "../utils/countEmoji";
 import LongButton from "../components/ui/LongButton";
 import { getAllSmokeHistory, getUserGoal, insertOrUpdateGoal } from "../api/firebase";
+import GoalBar from "../components/GoalBar";
 
 const Goal = () => {
   const [goal, setGoal] = useState({weekGoal: 0, monthGoal: 0});
+  const [goalTxt, setGoalTxt] = useState('설정')
   const [goalExist, setGoalExist] = useState(false)
   const [smokeHistory, setSmokeHistory] = useState({})
   const [face, setFace] = useState('😃')
@@ -15,6 +17,7 @@ const Goal = () => {
     const userSmokeHistory = await getAllSmokeHistory(uid);
     setSmokeHistory(userSmokeHistory);
     setGoalExist(true);
+    setGoalTxt('수정')
   }
 
   const showUserGoal = async (uid) => {
@@ -39,7 +42,6 @@ const Goal = () => {
   };
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log(goal);
     insertOrUpdateGoal(uid, goal);
   }
 
@@ -48,7 +50,8 @@ const Goal = () => {
       {!user && <p>목표를 거창하게 세우는 곳입니다</p>}
       {user && (
         <>
-          <h1 className="m-4 text-center text-4xl">목표를 설정하세요! {face}</h1>
+            <GoalBar />
+          <h1 className="m-4 text-center text-4xl">{`목표를 ${goalTxt}하세요! ${face}`}</h1>
           <form className="flex flex-col m-4" onSubmit={submitHandler}>
             <div className="flex">
               <input
@@ -67,7 +70,7 @@ const Goal = () => {
                 required
               />
             </div>
-            <div className="flex">
+            <div className="flex mb-4">
               <input
                 type="text"
                 className="text-center font-bold mr-2 text-lg"
@@ -84,7 +87,7 @@ const Goal = () => {
                 required
               />
             </div>
-            <LongButton text="목표 설정" onClick={submitHandler} />
+            <LongButton text={`목표 ${goalTxt}`} onClick={submitHandler} />
           </form>
 
         </>
