@@ -22,12 +22,13 @@ const auth = getAuth(app);
 const database = getDatabase(app);
 
 export function login() {
-  signInWithPopup(auth, provider).then((result) => {
-    const user = result.user;
-
-  }).catch((error) => {
-    console.log("Google Login Error!");
-  });
+  signInWithPopup(auth, provider)
+    .then((result) => {
+      //   const user = result.user;
+    })
+    .catch((error) => {
+      console.log("Google Login Error!");
+    });
 }
 
 export function logout() {
@@ -60,14 +61,28 @@ export async function getTodaySmokeHistory(uid, date) {
 }
 
 export async function getAllSmokeHistory(uid) {
-  return get(ref(database, `users/${uid}`)) //
+  return get(ref(database, `users/${uid}/history`)) //
     .then((snapshot) => {
-      return Object.values(snapshot.val() || {});
+      if (snapshot.exists) {
+        const smokeHistory = snapshot.val();
+        Object.keys(smokeHistory).forEach((sh) => {
+          smokeHistory[sh] = smokeHistory[sh].smokeTime;
+        });
+        return smokeHistory;
+      } else {
+        return {};
+      }
+      return snapshot.val() || {};
     });
 }
 
 export async function insertOrUpdateGoal(uid, goal) {
-    console.log(uid);
-    console.log(goal);
-    return set(ref(database, `users/${uid}/goal`), goal)
+  return set(ref(database, `users/${uid}/goal`), goal);
+}
+
+export async function getUserGoal(uid) {
+  return get(ref(database, `users/${uid}/goal`)) //
+    .then((snapshot) => {
+      return snapshot.val();
+    });
 }

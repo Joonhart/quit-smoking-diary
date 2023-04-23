@@ -1,20 +1,40 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuthContext } from "../context/AuthContext";
 import { countEmoji } from "../utils/countEmoji";
 import LongButton from "../components/ui/LongButton";
-import { insertOrUpdateGoal } from "../api/firebase";
+import { getAllSmokeHistory, getUserGoal, insertOrUpdateGoal } from "../api/firebase";
 
 const Goal = () => {
   const [goal, setGoal] = useState({weekGoal: 0, monthGoal: 0});
+  const [goalExist, setGoalExist] = useState(false)
+  const [smokeHistory, setSmokeHistory] = useState({})
   const [face, setFace] = useState('😃')
   const { user, uid } = useAuthContext();
+
+  const showProgress = async (uid) => {
+    const userSmokeHistory = await getAllSmokeHistory(uid);
+    setSmokeHistory(userSmokeHistory);
+    setGoalExist(true);
+  }
+
+  const showUserGoal = async (uid) => {
+    const userGoal = await getUserGoal(uid)
+    userGoal && setGoal(userGoal);
+    userGoal && showProgress(uid);
+  }
+
+  useEffect(() => {
+    uid && showUserGoal(uid);
+  }, [])
 
   const changeHandler = (e) => {
     const { name, value } = e.target;
     const newGoal = {...goal, [name]: value}
+    console.log(newGoal);
     setGoal(newGoal);
     
     const count = Math.max(newGoal.weekGoal, parseInt(newGoal.monthGoal / 4));
+    console.log(count);
     setFace(countEmoji(Number(count)))
   };
   const submitHandler = (e) => {

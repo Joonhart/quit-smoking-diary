@@ -2,9 +2,7 @@ import { ResponsiveBar } from "@nivo/bar";
 import React from "react";
 
 const Barchart = ({uid}) => {
-  const handle = {};
-
-  console.log(uid);
+  // console.log(uid);
 
   return (
     // chart height이 100%이기 때문이 chart를 덮는 마크업 요소에 height 설정
@@ -48,7 +46,6 @@ const Barchart = ({uid}) => {
         enableGridY={false}
         labelSkipWidth={36}
         labelSkipHeight={12}
-        onClick={handle.barClick}
       />
     </div>
   );
