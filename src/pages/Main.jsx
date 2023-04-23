@@ -7,7 +7,7 @@ import AlertInfo from "../components/ui/AlertInfo";
 import { addSmokeHistory } from "../api/firebase";
 
 const Main = () => {
-  const { user, uid } = useAuthContext();
+  const { uid } = useAuthContext();
   const [isLogin, setIsLogin] = useState(true);
 
   const showAlert = () => {
@@ -15,13 +15,13 @@ const Main = () => {
     setTimeout(() => setIsLogin(true), 3000);
   };
   const smokeHandler = () => {
-    !user && showAlert();
-    user && addSmokeHistory(uid);
+    !uid && showAlert();
+    uid && addSmokeHistory(uid);
   };
 
   return (
     <>
-      {!isLogin && <AlertInfo />}
+      {!isLogin && <AlertInfo text="로그인 후 사용 가능합니다."/>}
       <section>
         <TextCaroucel />
       </section>

@@ -1,9 +1,29 @@
 import { ResponsiveBar } from "@nivo/bar";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getUserWeekSmokeData, getWeekSmokeDummyData } from "../../utils/moment";
 
 const Barchart = ({uid}) => {
-  // console.log(uid);
+  const [weekSmokeData, setWeekSmokeData] = useState()
+  const [axisLeft, setAxisLeft] = useState();
 
+  useEffect(() => {
+    async function fetchWeekSmokeData() {
+      const userWeekSmokeData = uid ? await getUserWeekSmokeData(uid) : getWeekSmokeDummyData()
+      setWeekSmokeData(userWeekSmokeData)
+      setAxisLeft({
+        tickSize: 1,
+        tickPadding: 2,
+        legendPosition: 'middle',
+        tickValues: Math.max(...userWeekSmokeData.map(data => data.흡연)),
+    })
+    }
+    fetchWeekSmokeData();
+  }, [uid])
+
+  // console.log(thickValue);
+
+  if(!weekSmokeData) return (<p>loading...</p>)
+  
   return (
     // chart height이 100%이기 때문이 chart를 덮는 마크업 요소에 height 설정
     <div style={{ width: "100%", height: "90%", margin: "0 auto" }}>
@@ -11,15 +31,7 @@ const Barchart = ({uid}) => {
         /**
          * chart에 사용될 데이터
          */
-        data={[
-          { 날짜: "4/12(월)", 흡연: 4 },
-          { 날짜: "4/13(화)", 흡연: 7 },
-          { 날짜: "4/14(수)", 흡연: 3 },
-          { 날짜: "4/15(목)", 흡연: 5 },
-          { 날짜: "4/16(금)", 흡연: 5 },
-          { 날짜: "4/17(토)", 흡연: 2 },
-          { 날짜: "4/18(일)", 흡연: 3 },
-        ]}
+        data={weekSmokeData}
         keys={["흡연"]}
         indexBy="날짜"
         margin={{ top: 50, right: 60, bottom: 50, left: 60 }}
@@ -28,21 +40,15 @@ const Barchart = ({uid}) => {
         colorBy="id"
         theme={{
           axis: {
-            
             ticks: {
               text: {
-                fontSize: 16,
+                fontSize: 15,
                 fill: "#000000",
               },
             },
           },
         }}
-        axisLeft={{
-            tickSize: 1,
-            tickPadding: 2,
-            legendPosition: 'middle',
-            tickValues: 7,
-        }}
+        axisLeft={axisLeft}
         enableGridY={false}
         labelSkipWidth={36}
         labelSkipHeight={12}
