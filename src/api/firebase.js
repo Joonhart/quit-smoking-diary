@@ -72,7 +72,6 @@ export async function getAllSmokeHistory(uid) {
       } else {
         return {};
       }
-      return snapshot.val() || {};
     });
 }
 

@@ -2,7 +2,7 @@ import { ResponsiveBar } from "@nivo/bar";
 import React, { useEffect, useState } from "react";
 import { getUserWeekSmokeData, getWeekSmokeDummyData } from "../../utils/moment";
 
-const Barchart = ({uid}) => {
+const Barchart = ({uid, smoke}) => {
   const [weekSmokeData, setWeekSmokeData] = useState()
   const [axisLeft, setAxisLeft] = useState();
 
@@ -18,9 +18,7 @@ const Barchart = ({uid}) => {
     })
     }
     fetchWeekSmokeData();
-  }, [uid])
-
-  // console.log(thickValue);
+  }, [uid, smoke])
 
   if(!weekSmokeData) return (<p>loading...</p>)
   
@@ -42,7 +40,7 @@ const Barchart = ({uid}) => {
           axis: {
             ticks: {
               text: {
-                fontSize: 15,
+                fontSize: 16,
                 fill: "#000000",
               },
             },

@@ -1,9 +1,7 @@
 import { ResponsiveTimeRange } from "@nivo/calendar";
 import React from "react";
 import { getAllSmokeDummyData } from "../../utils/moment";
-import { AuthContextProvider } from "../../context/AuthContext";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 
 const TimeRangeChart = ({uid}) => {
   const [allSmokeData, setAllSmokeData] = useState();

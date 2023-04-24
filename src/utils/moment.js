@@ -51,3 +51,11 @@ export async function getUserWeekSmokeData(uid) {
     }
     return userWeekSmokeData
 }
+
+export async function getLastSmokeTime(uid) {
+  const userAllSmokeHistory = await getAllSmokeHistory(uid);
+  const lastSmokeDay = Object.keys(userAllSmokeHistory).pop();
+  const lastSmokeTime = userAllSmokeHistory[lastSmokeDay].pop();
+  let howlong = moment(lastSmokeDay + ' ' + lastSmokeTime).fromNow().replace(' 전', '');
+  return howlong === '하루' ? '하루가' : howlong + '이';
+}
