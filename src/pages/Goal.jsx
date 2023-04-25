@@ -11,7 +11,7 @@ const Goal = () => {
   const [goalExist, setGoalExist] = useState(false)
   const [smokeHistory, setSmokeHistory] = useState({})
   const [face, setFace] = useState('😃')
-  const { user, uid } = useAuthContext();
+  const { uid } = useAuthContext();
 
   const showProgress = async (uid) => {
     const userSmokeHistory = await getAllSmokeHistory(uid);
@@ -45,10 +45,11 @@ const Goal = () => {
 
   return (
     <div>
-      {!user && <p>목표를 거창하게 세우는 곳입니다</p>}
-      {user && (
+      {!uid && <p>목표를 거창하게 세우는 곳입니다</p>}
+      {uid && (
         <>
-            <GoalBar />
+            {goal && <GoalBar goal={goal}/>}
+            {!goal && <GoalBar goal={goal}/>}
           <h1 className="m-4 text-center text-4xl">{`목표를 ${goalTxt}하세요! ${face}`}</h1>
           <form className="flex flex-col m-4" onSubmit={submitHandler}>
             <div className="flex">

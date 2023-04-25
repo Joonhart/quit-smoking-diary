@@ -1,6 +1,7 @@
 import React from "react";
 
-const GoalBar = () => {
+const GoalBar = (goal) => {
+  console.log(goal);
   return (
     <div className="p-10">
         <h1 className="text-4xl text-center m-4">목표 진행율</h1>

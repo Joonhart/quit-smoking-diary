@@ -15,7 +15,7 @@ const Navbar = () => {
         <nav className="flex items-center gap-6 pl-6 font-semibold">
           <Link to="/" className="hover:text-gray-400">HOME</Link>
           <Link to="goal" className="hover:text-gray-400">목표 설정</Link>
-          <Link to="stat" className="hover:text-gray-400">흡연 일지</Link>
+          <Link to="stat" className="hover:text-gray-400">금연 일지</Link>
         </nav>
       </div>
       <div className="flex items-center gap-4">

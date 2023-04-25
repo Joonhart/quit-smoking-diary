@@ -15,7 +15,6 @@ export function getWeekSmokeDummyData() {
 }
 
 export async function getAllSmokeDummyData(uid) {
-  console.log(uid);
   const totalData = [];
 
   if (!uid) {

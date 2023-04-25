@@ -11,15 +11,16 @@ const Main = () => {
   const { uid } = useAuthContext();
   const [isLogin, setIsLogin] = useState(true);
   const [smoke, setSmoke] = useState(true);
-  const [lastSmoke, setLastSmoke] = useState('')
+  const [smoking, setSmoking] = useState(false);
+  const [lastSmoke, setLastSmoke] = useState("");
 
   useEffect(() => {
     async function getSmokeTime() {
-      const lastSmokeTime = uid ? await getLastSmokeTime(uid) : '2시간 20분'
-      setLastSmoke(lastSmokeTime)
+      const lastSmokeTime = uid ? await getLastSmokeTime(uid) : "2시간 20분";
+      setLastSmoke(lastSmokeTime);
     }
     getSmokeTime();
-  }, [smoke])
+  }, [uid, smoke, smoking]);
 
   const showAlert = () => {
     setIsLogin(false);
@@ -27,33 +28,41 @@ const Main = () => {
   };
   const smokeHandler = async () => {
     !uid && showAlert();
-    uid && await (addSmokeHistory(uid));
-    uid && (setSmoke((smoke) => !smoke))
+    uid && (await addSmokeHistory(uid));
+    uid && setSmoke((smoke) => !smoke);
+    setSmoking(true);
+    setTimeout(() => {
+      setSmoking(false);
+    }, 60000);
   };
 
   return (
     <>
-      {!isLogin && <AlertInfo text="로그인 후 사용 가능합니다."/>}
+      {!isLogin && <AlertInfo text="로그인 후 사용 가능합니다." />}
       <section>
         <TextCaroucel />
       </section>
       <section className="p-4">
-        <p className="mb-4 text-center text-2xl">
-          마지막으로 담배를 피운지 {lastSmoke} 지났습니다
-        </p>
-        <LongButton onClick={smokeHandler} text="담배 피우기" />
+        {!smoking && (
+          <p className="mb-4 text-center text-2xl">
+            마지막으로 담배를 피운지 {lastSmoke} 지났습니다
+          </p>
+        )}
+
+        {!smoking && <LongButton onClick={smokeHandler} text="담배 피우기" />}
+        {smoking && (
+          <div className="bg-gray-400 text-center leading-loose text-white h-20 w-full text-4xl animate-infinite animate-pulse">
+            니코틴을 충전합니다...
+          </div>
+        )}
       </section>
       <section className="text-center grid grid-cols-1 lg:grid-cols-1 gap-2 gap-y-4">
         <section className="p-4">
           <p className="p-2 text-2xl">최근 일주일 흡연 횟수</p>
           <div className="h-96 bg-sky-400">
-            <Barchart uid={uid} smoke={smoke}/>
+            <Barchart uid={uid} smoke={smoke} />
           </div>
         </section>
-        {/* <section className="p-4">
-          <p className="p-2">금연 목표 현황</p>
-          <div className="h-96 bg-sky-400">현황 차트</div>
-        </section> */}
       </section>
     </>
   );

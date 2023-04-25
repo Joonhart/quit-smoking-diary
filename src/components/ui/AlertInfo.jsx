@@ -5,7 +5,7 @@ const AlertInfo = ({text}) => {
   return (
     <Alert color="info">
       <span>
-        <span className="font-medium">${text}</span>
+        <span className="font-medium">{text}</span>
       </span>
     </Alert>
   );
