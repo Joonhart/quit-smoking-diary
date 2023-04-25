@@ -58,3 +58,29 @@ export async function getLastSmokeTime(uid) {
   let howlong = moment(lastSmokeDay + ' ' + lastSmokeTime).fromNow().replace(' 전', '');
   return howlong === '하루' ? '하루가' : howlong + '이';
 }
+
+export function getSmokeInfo(smokeHistory) {
+  let day = moment().format('YYYY-MM-DD');
+  let dddd = moment(day).format('dddd');
+  const month = moment(day).format('MM')
+  let weekSmoke = 0;
+  let monthSmoke = 0;
+
+  // weekSmoke add
+  for (let i = 1; i <= 7; i++) {
+    weekSmoke += smokeHistory[day] ? smokeHistory[day].length : 0;
+    day = moment(day).subtract(1, 'days').format('YYYY-MM-DD');
+    dddd = moment(day).format('dddd');
+    if (dddd === '일요일') break;
+  }
+
+  day = moment().format('YYYY-MM-DD');
+  for (let i = 1; i <= 31; i++) {
+    monthSmoke += smokeHistory[day] ? smokeHistory[day].length : 0;
+    day = moment(day).subtract(1, 'days').format('YYYY-MM-DD');
+    let changeMonth = moment(day).format('MM')
+    if (month !== changeMonth) break;
+  }
+
+  return {weekSmoke, monthSmoke}
+}

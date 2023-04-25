@@ -8,7 +8,7 @@ import GoalBar from "../components/GoalBar";
 const Goal = () => {
   const [goal, setGoal] = useState({weekGoal: 0, monthGoal: 0});
   const [goalTxt, setGoalTxt] = useState('설정')
-  const [goalExist, setGoalExist] = useState(false)
+  // const [goalExist, setGoalExist] = useState(false)
   const [smokeHistory, setSmokeHistory] = useState({})
   const [face, setFace] = useState('😃')
   const { uid } = useAuthContext();
@@ -16,7 +16,6 @@ const Goal = () => {
   const showProgress = async (uid) => {
     const userSmokeHistory = await getAllSmokeHistory(uid);
     setSmokeHistory(userSmokeHistory);
-    setGoalExist(true);
     setGoalTxt('수정')
   }
 
@@ -28,7 +27,7 @@ const Goal = () => {
 
   useEffect(() => {
     uid && showUserGoal(uid);
-  }, [])
+  }, [uid])
 
   const changeHandler = (e) => {
     const { name, value } = e.target;
@@ -45,10 +44,10 @@ const Goal = () => {
 
   return (
     <div>
-      {!uid && <p>목표를 거창하게 세우는 곳입니다</p>}
-      {uid && (
+      {/* {!uid && <p>목표를 거창하게 세우는 곳입니다</p>} */}
+      {/* {uid && ( */}
         <>
-            {goal && <GoalBar goal={goal}/>}
+            {goal && <GoalBar goal={goal} smokeHistory={smokeHistory}/>}
             {!goal && <GoalBar goal={goal}/>}
           <h1 className="m-4 text-center text-4xl">{`목표를 ${goalTxt}하세요! ${face}`}</h1>
           <form className="flex flex-col m-4" onSubmit={submitHandler}>
@@ -90,7 +89,7 @@ const Goal = () => {
           </form>
 
         </>
-      )}
+      {/* )} */}
     </div>
   );
 };
