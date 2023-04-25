@@ -1,23 +1,16 @@
-import React, { useEffect, useState } from "react";
 import { getSmokeInfo } from "../utils/moment";
-import GaugeBar from "./ui/GaugeBar";
+import { percentMap } from "../utils/barPercent";
 
 const GoalBar = ({ goal = {}, smokeHistory = {} }) => {
-  const [weekClassName, setWeekClassName] = useState();
-  const [monthClassName, setMonthClassName] = useState();
   const { weekGoal, monthGoal } = goal;
   const { weekSmoke, monthSmoke } = getSmokeInfo(smokeHistory);
+  const weekPercent = percentMap[parseInt(weekSmoke / weekGoal * 70)];
+  const monthPercent = percentMap[parseInt(monthSmoke / monthGoal * 70)];
+  const weekBarColor = weekPercent >= 60 ? 'bg-red-400' : 'bg-red-700';
+  const monthBarColor = monthPercent >= 60 ? 'bg-red-400' : 'bg-gray-700';
 
-  useEffect(() => {
-    const weekPercent = parseInt(weekSmoke / weekGoal * 70);
-    const monthPercent = parseInt(monthSmoke / monthGoal * 70);
-    const weekBarColor = weekPercent >= 60 ? 'bg-red-400' : 'bg-red-700';
-    const monthBarColor = monthPercent >= 60 ? 'bg-red-400' : 'bg-gray-700';
-    weekPercent && setWeekClassName(() => `absolute end-0 h-full w-[${weekPercent}%] ${weekBarColor}`);
-    monthPercent && setMonthClassName(() => `absolute end-0 h-full w-[${monthPercent}%] ${monthBarColor}`)
-    console.log(weekClassName);
-    console.log(monthClassName);
-  }, [goal, smokeHistory])
+  const weekClass = `absolute end-0 h-full ${weekPercent} ${weekBarColor}`
+  const monthClass = `absolute end-0 h-full ${monthPercent} ${monthBarColor}`
 
   return (
     <div className="p-10">
@@ -29,7 +22,7 @@ const GoalBar = ({ goal = {}, smokeHistory = {} }) => {
           <div className="w-1/3 h-full bg-yellow-500"></div>
           <div className="w-1/12 h-full bg-slate-50"></div>
           <div className="w-full bg-slate-200"></div>
-          <GaugeBar className={weekClassName}></GaugeBar>
+          <div className={weekClass} ></div>
         </div>
       </div>
       <div>
@@ -39,7 +32,7 @@ const GoalBar = ({ goal = {}, smokeHistory = {} }) => {
           <div className="w-1/3 h-full bg-yellow-500"></div>
           <div className="w-1/12 h-full bg-slate-50"></div>
           <div className="w-full bg-slate-200"></div>
-          {monthClassName && <div className={monthClassName}></div>}
+          <div className={monthClass}></div>
         </div>
       </div>
     </div>
