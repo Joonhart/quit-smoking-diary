@@ -25,15 +25,14 @@ const Goal = () => {
     setTimeout(() => setIsLogin(true), 3000);
   };
 
-  const showUserGoal = async (uid) => {
-    const userGoal = await getUserGoal(uid)
-    userGoal && setGoal(userGoal);
-    userGoal && showProgress(uid);
-  }
-
   useEffect(() => {
+    async function showUserGoal() {
+      const userGoal = await getUserGoal(uid)
+      userGoal && setGoal(userGoal);
+      userGoal && showProgress(uid);
+    }
     uid && showUserGoal(uid);
-  }, [])
+  }, [uid])
 
   const changeHandler = (e) => {
     const { name, value } = e.target;
