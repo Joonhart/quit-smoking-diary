@@ -40,7 +40,7 @@ const Barchart = ({uid, smoke}) => {
           axis: {
             ticks: {
               text: {
-                fontSize: 16,
+                fontSize: 9,
                 fill: "#000000",
               },
             },

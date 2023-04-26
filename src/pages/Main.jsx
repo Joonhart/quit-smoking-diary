@@ -44,7 +44,7 @@ const Main = () => {
       </section>
       <section className="p-4">
         {!smoking && (
-          <p className="mb-4 text-center text-2xl">
+          <p className="mb-4 text-center text-xl lg:text-2xl">
             마지막으로 담배를 피운지 {lastSmoke} 지났습니다
           </p>
         )}

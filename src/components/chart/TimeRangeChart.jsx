@@ -29,7 +29,7 @@ const TimeRangeChart = ({uid}) => {
         to={to}
         emptyColor="#eeeeee"
         colors={["#f5f7f7", "#e8d2cc", "#f47560", "#4f2716"]}
-        margin={{ top: 40, right: 40, bottom: 100, left: 40 }}
+        margin={{ top: 40, right:40, bottom: 100, left: 40 }}
         yearSpacing={40}
         dayBorderWidth={2}
         monthBorderColor="#ffffff"
