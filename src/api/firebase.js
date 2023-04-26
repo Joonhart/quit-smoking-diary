@@ -65,6 +65,8 @@ export async function getAllSmokeHistory(uid) {
     .then((snapshot) => {
       if (snapshot.exists) {
         const smokeHistory = snapshot.val();
+        if (smokeHistory === null) return {};
+
         Object.keys(smokeHistory).forEach((sh) => {
           smokeHistory[sh] = smokeHistory[sh].smokeTime;
         });
@@ -86,4 +88,8 @@ export async function getUserGoal(uid) {
     .then((snapshot) => {
       return snapshot.val();
     });
+}
+
+export async function getLastSmokeTime(uid) {
+  return get(ref(database, `user/${uid}`))
 }

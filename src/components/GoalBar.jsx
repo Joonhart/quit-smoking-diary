@@ -6,8 +6,8 @@ const GoalBar = ({ goal = {}, smokeHistory = {} }) => {
   const { weekSmoke, monthSmoke } = getSmokeInfo(smokeHistory);
   const weekPercent = percentMap[parseInt(weekSmoke / weekGoal * 70)];
   const monthPercent = percentMap[parseInt(monthSmoke / monthGoal * 70)];
-  const weekBarColor = weekPercent >= 60 ? 'bg-red-400' : 'bg-red-700';
-  const monthBarColor = monthPercent >= 60 ? 'bg-red-400' : 'bg-gray-700';
+  const weekBarColor = parseInt(weekSmoke / weekGoal * 70) >= 60 ? 'bg-red-700' : 'bg-gray-700';
+  const monthBarColor = parseInt(monthSmoke / monthGoal * 70) >= 60 ? 'bg-red-700' : 'bg-gray-700';
 
   const weekClass = `absolute end-0 h-full ${weekPercent} ${weekBarColor}`
   const monthClass = `absolute end-0 h-full ${monthPercent} ${monthBarColor}`
