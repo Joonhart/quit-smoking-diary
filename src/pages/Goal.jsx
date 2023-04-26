@@ -9,11 +9,11 @@ import AlertInfo from "../components/ui/AlertInfo";
 const Goal = () => {
   const [goal, setGoal] = useState({weekGoal: 0, monthGoal: 0});
   const [goalTxt, setGoalTxt] = useState('설정')
-  // const [goalExist, setGoalExist] = useState(false)
   const [smokeHistory, setSmokeHistory] = useState({})
   const [face, setFace] = useState('😃')
   const { uid } = useAuthContext();
   const [isLogin, setIsLogin] = useState(true)
+  const [isGoal, setIsGoal] = useState(true)
 
   const showProgress = async (uid) => {
     const userSmokeHistory = await getAllSmokeHistory(uid);
@@ -24,6 +24,11 @@ const Goal = () => {
     setIsLogin(false);
     setTimeout(() => setIsLogin(true), 3000);
   };
+
+  const showGoalAlert = () => {
+    setIsGoal(false)
+    setTimeout(() => setIsGoal(true), 3000);
+  }
 
   useEffect(() => {
     async function showUserGoal() {
@@ -45,6 +50,7 @@ const Goal = () => {
   const submitHandler = (e) => {
     e.preventDefault();
     !uid && showAlert();
+    uid && showGoalAlert();
     uid && insertOrUpdateGoal(uid, goal);
   }
 
@@ -92,7 +98,8 @@ const Goal = () => {
               />
             </div>
             {!isLogin && <AlertInfo text="로그인 후 사용 가능합니다." />}
-            <LongButton text={`목표 ${goalTxt}`} onClick={submitHandler} />
+            {!isGoal && <AlertInfo text="목표가 수정되었습니다." />}
+            {isLogin && isGoal && <LongButton text={`목표 ${goalTxt}`} onClick={submitHandler} />}
           </form>
 
         </>
