@@ -4,6 +4,7 @@ import { countEmoji } from "../utils/countEmoji";
 import LongButton from "../components/ui/LongButton";
 import { getAllSmokeHistory, getUserGoal, insertOrUpdateGoal } from "../api/firebase";
 import GoalBar from "../components/GoalBar";
+import AlertInfo from "../components/ui/AlertInfo";
 
 const Goal = () => {
   const [goal, setGoal] = useState({weekGoal: 0, monthGoal: 0});
@@ -12,12 +13,17 @@ const Goal = () => {
   const [smokeHistory, setSmokeHistory] = useState({})
   const [face, setFace] = useState('😃')
   const { uid } = useAuthContext();
+  const [isLogin, setIsLogin] = useState(true)
 
   const showProgress = async (uid) => {
     const userSmokeHistory = await getAllSmokeHistory(uid);
     setSmokeHistory(userSmokeHistory);
     setGoalTxt('수정')
   }
+  const showAlert = () => {
+    setIsLogin(false);
+    setTimeout(() => setIsLogin(true), 3000);
+  };
 
   const showUserGoal = async (uid) => {
     const userGoal = await getUserGoal(uid)
@@ -27,7 +33,7 @@ const Goal = () => {
 
   useEffect(() => {
     uid && showUserGoal(uid);
-  }, [uid])
+  }, [])
 
   const changeHandler = (e) => {
     const { name, value } = e.target;
@@ -39,7 +45,8 @@ const Goal = () => {
   };
   const submitHandler = (e) => {
     e.preventDefault();
-    insertOrUpdateGoal(uid, goal);
+    !uid && showAlert();
+    uid && insertOrUpdateGoal(uid, goal);
   }
 
   return (
@@ -85,6 +92,7 @@ const Goal = () => {
                 required
               />
             </div>
+            {!isLogin && <AlertInfo text="로그인 후 사용 가능합니다." />}
             <LongButton text={`목표 ${goalTxt}`} onClick={submitHandler} />
           </form>
 

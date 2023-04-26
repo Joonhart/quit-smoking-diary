@@ -30,15 +30,15 @@ const Main = () => {
     !uid && showAlert();
     uid && (await addSmokeHistory(uid));
     uid && setSmoke((smoke) => !smoke);
-    setSmoking(true);
-    setTimeout(() => {
+    uid && setSmoking(true);
+    uid && setTimeout(() => {
       setSmoking(false);
     }, 60000);
   };
 
   return (
     <>
-      {!isLogin && <AlertInfo text="로그인 후 사용 가능합니다." />}
+      
       <section>
         <TextCaroucel />
       </section>
@@ -48,13 +48,14 @@ const Main = () => {
             마지막으로 담배를 피운지 {lastSmoke} 지났습니다
           </p>
         )}
-
+        {!isLogin && <AlertInfo text="로그인 후 사용 가능합니다." />}
         {!smoking && <LongButton onClick={smokeHandler} text="담배 피우기" />}
         {smoking && (
           <div className="bg-gray-400 text-center leading-loose text-white h-20 w-full text-4xl animate-infinite animate-pulse">
             니코틴을 충전합니다...
           </div>
         )}
+        
       </section>
       <section className="text-center grid grid-cols-1 lg:grid-cols-1 gap-2 gap-y-4">
         <section className="p-4">
